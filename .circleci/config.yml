@@ -82,40 +82,6 @@ jobs:
       - run:
           name: Build and Publish Docker Image to Docker Hub
           command: ./build_and_upload_image.sh insta/db/kubernetes/Dockerfile codesmag/postgres-setup
-  # TWITTER
-  twitter_inserter_users:
-    executor: job-runner
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Build and Publish Docker Image to Docker Hub
-          command: ./build_and_upload_image.sh twitter/inserter/users/Dockerfile codesmag/twitter_inserter_users
-  twitter_inserter_posts:
-    executor: job-runner
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Build and Publish Docker Image to Docker Hub
-          command: ./build_and_upload_image.sh twitter/inserter/posts/Dockerfile codesmag/twitter_inserter_posts
-  twitter_filter_user_names:
-    executor: job-runner
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Build and Publish Docker Image to Docker Hub
-          command: ./build_and_upload_image.sh twitter/filter/user_names/Dockerfile codesmag/twitter_filter_user_names
-  twitter_scraper:
-    executor: job-runner
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Build and Publish Docker Image to Docker Hub
-          command: ./build_and_upload_image.sh twitter/scraper/Dockerfile codesmag/twitter_scraper twitter/scraper/
-
   insta_user_names-filter:
     executor: job-runner
     steps:
@@ -354,30 +320,6 @@ workflows:
           filters:
             branches:
               only: master
-      # TWITTER
-      - twitter_scraper:
-          filters:
-            branches:
-              only: master
-      - twitter_inserter_users:
-          requires:
-            - tests
-          filters:
-            branches:
-              only: master
-      - twitter_inserter_posts:
-          requires:
-            - tests
-          filters:
-            branches:
-              only: master
-      - twitter_filter_user_names:
-          requires:
-            - tests
-          filters:
-            branches:
-              only: master
-
       - postgres-setup:
           filters:
             branches:

@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"time"
 
@@ -12,27 +11,13 @@ import (
 
 func main() {
 	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "my-kafka:9092")
-	instagramTopic := utils.GetStringFromEnvWithDefault("KAFKA_INSTAGRAM_TOPIC", "user_names")
-	twitterTopic := utils.GetStringFromEnvWithDefault("KAFKA_TWITTER_TOPIC", "twitter.scraped.user_names")
+	topic := utils.GetStringFromEnvWithDefault("KAFKA_INSTAGRAM_TOPIC", "user_names")
 
-	if len(os.Args) < 3 {
-		panic("Invalid argumemts. Usage: cli <instagram|twitter> <username>")
+	if len(os.Args) < 2 {
+		panic("Invalid argumemts. Usage: cli <username>")
 	}
 
-	platformArg := os.Args[1]
-	userNameArg := os.Args[2]
-
-	var topic string
-	switch platformArg {
-	case "instagram":
-		topic = instagramTopic
-		break
-	case "twitter":
-		topic = twitterTopic
-		break
-	default:
-		panic(fmt.Sprintf("Invalid platform option: %s\n", platformArg))
-	}
+	userNameArg := os.Args[1]
 
 	w := kafka.NewWriter(kafka.WriterConfig{
 		Brokers:  []string{kafkaAddress},
