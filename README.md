@@ -13,3 +13,5 @@ This is a remodelled version of [this](https://github.com/codeuniversity/smag-mv
 - [ ] remove old frontend, develp admin panel
 - [ ] errgroup in face detection worker
 - [ ] single error queue
+- [ ] create kafka topics and partitions automatically
+- [ ] use go 1.15
