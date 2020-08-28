@@ -5,12 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/codeuniversity/smag-mvp/elastic"
-	proto "github.com/codeuniversity/smag-mvp/faces/proto"
-	elasticsearch "github.com/elastic/go-elasticsearch/v7"
-	"github.com/elastic/go-elasticsearch/v7/esutil"
 	"io/ioutil"
 	"log"
+
+	"github.com/alexmorten/smag-mvp/elastic"
+	proto "github.com/alexmorten/smag-mvp/faces/proto"
+	elasticsearch "github.com/elastic/go-elasticsearch/v7"
+	"github.com/elastic/go-elasticsearch/v7/esutil"
 )
 
 // Client searches elasticsearch for similar faces to the faces given in an image

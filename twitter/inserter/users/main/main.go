@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/codeuniversity/smag-mvp/kafka"
-	"github.com/codeuniversity/smag-mvp/service"
-	inserter "github.com/codeuniversity/smag-mvp/twitter/inserter/users"
-	"github.com/codeuniversity/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/kafka"
+	"github.com/alexmorten/smag-mvp/service"
+	inserter "github.com/alexmorten/smag-mvp/twitter/inserter/users"
+	"github.com/alexmorten/smag-mvp/utils"
 )
 
 func main() {

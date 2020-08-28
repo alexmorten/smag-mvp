@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/codeuniversity/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/utils"
 )
 
 // TwitterUserRaw holds the follow graph info, only relating userNames

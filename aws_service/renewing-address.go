@@ -6,10 +6,10 @@ import (
 	"log"
 	"net"
 
+	pb "github.com/alexmorten/smag-mvp/aws_service/proto"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
-	pb "github.com/codeuniversity/smag-mvp/aws_service/proto"
 	"google.golang.org/grpc"
 )
 

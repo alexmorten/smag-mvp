@@ -7,9 +7,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/codeuniversity/smag-mvp/kafka/changestream"
-	"github.com/codeuniversity/smag-mvp/utils"
-	"github.com/codeuniversity/smag-mvp/worker"
+	"github.com/alexmorten/smag-mvp/kafka/changestream"
+	"github.com/alexmorten/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/worker"
 
 	"github.com/neo4j/neo4j-go-driver/neo4j"
 	kf "github.com/segmentio/kafka-go"

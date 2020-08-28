@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/codeuniversity/smag-mvp/aws_service"
-	"github.com/codeuniversity/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/aws_service"
+	"github.com/alexmorten/smag-mvp/utils"
 )
 
 func main() {

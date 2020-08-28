@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/codeuniversity/smag-mvp/elastic"
-	"github.com/codeuniversity/smag-mvp/elastic/indexer"
-	esModels "github.com/codeuniversity/smag-mvp/elastic/models"
-	"github.com/codeuniversity/smag-mvp/insta/models"
-	"github.com/codeuniversity/smag-mvp/kafka/changestream"
-	"github.com/codeuniversity/smag-mvp/service"
-	"github.com/codeuniversity/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/elastic"
+	"github.com/alexmorten/smag-mvp/elastic/indexer"
+	esModels "github.com/alexmorten/smag-mvp/elastic/models"
+	"github.com/alexmorten/smag-mvp/insta/models"
+	"github.com/alexmorten/smag-mvp/kafka/changestream"
+	"github.com/alexmorten/smag-mvp/service"
+	"github.com/alexmorten/smag-mvp/utils"
 )
 
 func main() {

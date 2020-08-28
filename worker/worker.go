@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/codeuniversity/smag-mvp/service"
+	"github.com/alexmorten/smag-mvp/service"
 )
 
 // Worker abstracts away all the executor lifecycle hooks, exposing a much more high level api

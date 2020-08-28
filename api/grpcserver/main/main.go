@@ -1,10 +1,10 @@
 package main
 
 import (
-	server "github.com/codeuniversity/smag-mvp/api/grpcserver"
-	"github.com/codeuniversity/smag-mvp/config"
-	"github.com/codeuniversity/smag-mvp/kafka"
-	"github.com/codeuniversity/smag-mvp/utils"
+	server "github.com/alexmorten/smag-mvp/api/grpcserver"
+	"github.com/alexmorten/smag-mvp/config"
+	"github.com/alexmorten/smag-mvp/kafka"
+	"github.com/alexmorten/smag-mvp/utils"
 	kgo "github.com/segmentio/kafka-go"
 )
 

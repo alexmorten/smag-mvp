@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/codeuniversity/smag-mvp/elastic"
-	"github.com/codeuniversity/smag-mvp/elastic/search/faces"
-	"github.com/codeuniversity/smag-mvp/faces/proto"
+	"github.com/alexmorten/smag-mvp/elastic"
+	"github.com/alexmorten/smag-mvp/elastic/search/faces"
+	"github.com/alexmorten/smag-mvp/faces/proto"
 	"google.golang.org/grpc"
 )
 

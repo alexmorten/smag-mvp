@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/codeuniversity/smag-mvp/config"
-	downloader "github.com/codeuniversity/smag-mvp/insta/pics-downloader"
-	"github.com/codeuniversity/smag-mvp/kafka"
-	"github.com/codeuniversity/smag-mvp/service"
-	"github.com/codeuniversity/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/config"
+	downloader "github.com/alexmorten/smag-mvp/insta/pics-downloader"
+	"github.com/alexmorten/smag-mvp/kafka"
+	"github.com/alexmorten/smag-mvp/service"
+	"github.com/alexmorten/smag-mvp/utils"
 )
 
 func main() {

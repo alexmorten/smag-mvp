@@ -6,7 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 
-	"github.com/codeuniversity/smag-mvp/elastic"
+	"github.com/alexmorten/smag-mvp/elastic"
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esutil"
 )

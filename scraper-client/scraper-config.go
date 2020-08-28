@@ -1,6 +1,6 @@
 package client
 
-import "github.com/codeuniversity/smag-mvp/utils"
+import "github.com/alexmorten/smag-mvp/utils"
 
 type ScraperConfig struct {
 	ElasticAssignmentTimeout int

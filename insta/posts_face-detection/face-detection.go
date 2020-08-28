@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"os"
 
-	http_header_generator "github.com/codeuniversity/smag-mvp/http_header-generator"
-	"github.com/codeuniversity/smag-mvp/insta/models"
-	"github.com/codeuniversity/smag-mvp/utils"
-	"github.com/codeuniversity/smag-mvp/worker"
+	http_header_generator "github.com/alexmorten/smag-mvp/http_header-generator"
+	"github.com/alexmorten/smag-mvp/insta/models"
+	"github.com/alexmorten/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/worker"
 
 	"github.com/minio/minio-go"
 	"github.com/segmentio/kafka-go"

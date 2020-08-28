@@ -4,14 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	kf "github.com/codeuniversity/smag-mvp/kafka"
-	"github.com/codeuniversity/smag-mvp/kafka/changestream"
-	"github.com/codeuniversity/smag-mvp/worker"
-	"github.com/google/uuid"
-	"github.com/segmentio/kafka-go"
 	"log"
 	"os"
 	"time"
+
+	kf "github.com/alexmorten/smag-mvp/kafka"
+	"github.com/alexmorten/smag-mvp/kafka/changestream"
+	"github.com/alexmorten/smag-mvp/worker"
+	"github.com/google/uuid"
+	"github.com/segmentio/kafka-go"
 )
 
 type Neo4jImport struct {

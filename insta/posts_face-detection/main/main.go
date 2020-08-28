@@ -1,10 +1,10 @@
 package main
 
 import (
-	detection "github.com/codeuniversity/smag-mvp/insta/posts_face-detection"
-	"github.com/codeuniversity/smag-mvp/kafka"
-	"github.com/codeuniversity/smag-mvp/service"
-	"github.com/codeuniversity/smag-mvp/utils"
+	detection "github.com/alexmorten/smag-mvp/insta/posts_face-detection"
+	"github.com/alexmorten/smag-mvp/kafka"
+	"github.com/alexmorten/smag-mvp/service"
+	"github.com/alexmorten/smag-mvp/utils"
 )
 
 func main() {

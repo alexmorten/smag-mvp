@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/codeuniversity/smag-mvp/insta/models"
-	"github.com/codeuniversity/smag-mvp/kafka/changestream"
-	"github.com/codeuniversity/smag-mvp/service"
-	"github.com/codeuniversity/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/insta/models"
+	"github.com/alexmorten/smag-mvp/kafka/changestream"
+	"github.com/alexmorten/smag-mvp/service"
+	"github.com/alexmorten/smag-mvp/utils"
 
 	"github.com/segmentio/kafka-go"
 )

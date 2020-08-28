@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	kf "github.com/codeuniversity/smag-mvp/kafka"
-	"github.com/codeuniversity/smag-mvp/worker"
+	kf "github.com/alexmorten/smag-mvp/kafka"
+	"github.com/alexmorten/smag-mvp/worker"
 
 	"github.com/segmentio/kafka-go"
 )

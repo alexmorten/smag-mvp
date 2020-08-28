@@ -8,7 +8,7 @@ import (
 	"os"
 	"strconv"
 
-	analyzer "github.com/codeuniversity/smag-mvp/nlp/frequency-analyzer"
+	analyzer "github.com/alexmorten/smag-mvp/nlp/frequency-analyzer"
 )
 
 func main() {

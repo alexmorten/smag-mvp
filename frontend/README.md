@@ -13,7 +13,7 @@ The Social Record front-end displays the analyzed data from instagram of the vis
 
 ### Getting started
 
-**1. Clone repo** [`https://github.com/codeuniversity/smag-mvp.git`](https://github.com/codeuniversity/smag-mvp.git)
+**1. Clone repo** [`https://github.com/alexmorten/smag-mvp.git`](https://github.com/alexmorten/smag-mvp.git)
 
 **2. Switch to the front-end folder** `cd smag-mvp/frontend`
 

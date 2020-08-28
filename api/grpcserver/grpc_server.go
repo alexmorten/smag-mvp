@@ -20,17 +20,17 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/segmentio/kafka-go"
 
-	"github.com/codeuniversity/smag-mvp/api/proto"
+	"github.com/alexmorten/smag-mvp/api/proto"
 	"github.com/minio/minio-go/v6"
 	"google.golang.org/grpc"
 
-	"github.com/codeuniversity/smag-mvp/config"
-	"github.com/codeuniversity/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/config"
+	"github.com/alexmorten/smag-mvp/utils"
 
-	"github.com/codeuniversity/smag-mvp/elastic"
-	"github.com/codeuniversity/smag-mvp/elastic/search/faces"
-	recognition "github.com/codeuniversity/smag-mvp/faces/proto"
-	analyzer "github.com/codeuniversity/smag-mvp/nlp/frequency-analyzer"
+	"github.com/alexmorten/smag-mvp/elastic"
+	"github.com/alexmorten/smag-mvp/elastic/search/faces"
+	recognition "github.com/alexmorten/smag-mvp/faces/proto"
+	analyzer "github.com/alexmorten/smag-mvp/nlp/frequency-analyzer"
 )
 
 const (

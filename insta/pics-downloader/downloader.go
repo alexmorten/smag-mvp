@@ -12,10 +12,10 @@ import (
 	// necessary for sql :pointup:
 	_ "github.com/lib/pq"
 
-	"github.com/codeuniversity/smag-mvp/config"
-	"github.com/codeuniversity/smag-mvp/insta/models"
-	"github.com/codeuniversity/smag-mvp/utils"
-	"github.com/codeuniversity/smag-mvp/worker"
+	"github.com/alexmorten/smag-mvp/config"
+	"github.com/alexmorten/smag-mvp/insta/models"
+	"github.com/alexmorten/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/worker"
 
 	"github.com/minio/minio-go/v6"
 	"github.com/segmentio/kafka-go"

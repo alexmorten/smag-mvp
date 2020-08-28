@@ -11,10 +11,10 @@ import (
 	// necessary for gorm :pointup:
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
-	dbUtils "github.com/codeuniversity/smag-mvp/db"
-	"github.com/codeuniversity/smag-mvp/twitter/models"
-	"github.com/codeuniversity/smag-mvp/utils"
-	"github.com/codeuniversity/smag-mvp/worker"
+	dbUtils "github.com/alexmorten/smag-mvp/db"
+	"github.com/alexmorten/smag-mvp/twitter/models"
+	"github.com/alexmorten/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/worker"
 
 	"github.com/segmentio/kafka-go"
 )

@@ -1,4 +1,4 @@
-module github.com/codeuniversity/smag-mvp
+module github.com/alexmorten/smag-mvp
 
 go 1.13
 

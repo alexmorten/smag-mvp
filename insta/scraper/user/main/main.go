@@ -1,9 +1,9 @@
 package main
 
 import (
-	scraper "github.com/codeuniversity/smag-mvp/insta/scraper/user"
-	"github.com/codeuniversity/smag-mvp/kafka"
-	"github.com/codeuniversity/smag-mvp/service"
+	scraper "github.com/alexmorten/smag-mvp/insta/scraper/user"
+	"github.com/alexmorten/smag-mvp/kafka"
+	"github.com/alexmorten/smag-mvp/service"
 )
 
 func main() {

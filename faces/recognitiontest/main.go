@@ -3,8 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/codeuniversity/smag-mvp/faces/proto"
-	"github.com/codeuniversity/smag-mvp/imgproxy"
+
+	"github.com/alexmorten/smag-mvp/faces/proto"
+	"github.com/alexmorten/smag-mvp/imgproxy"
 	"google.golang.org/grpc"
 )
 

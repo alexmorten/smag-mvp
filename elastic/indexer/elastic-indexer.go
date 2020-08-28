@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/codeuniversity/smag-mvp/elastic"
-	kf "github.com/codeuniversity/smag-mvp/kafka"
-	"github.com/codeuniversity/smag-mvp/kafka/changestream"
-	"github.com/codeuniversity/smag-mvp/utils"
-	"github.com/codeuniversity/smag-mvp/worker"
+	"github.com/alexmorten/smag-mvp/elastic"
+	kf "github.com/alexmorten/smag-mvp/kafka"
+	"github.com/alexmorten/smag-mvp/kafka/changestream"
+	"github.com/alexmorten/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/worker"
 
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/segmentio/kafka-go"

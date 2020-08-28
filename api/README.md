@@ -37,7 +37,7 @@ To use the production enviroment do the following steps:
 
 ## Functions
 
-To check the attributes of the proto messages take a look at the protofile [userserach.proto](https://github.com/codeuniversity/smag-mvp/blob/master/api/proto/usersearch.proto)
+To check the attributes of the proto messages take a look at the protofile [userserach.proto](https://github.com/alexmorten/smag-mvp/blob/master/api/proto/usersearch.proto)
 
 | **Method** | **Function Name**        | **Input Message** | **Return Message** |
 | ---------- | ------------------------ | ----------------- | ------------------ |

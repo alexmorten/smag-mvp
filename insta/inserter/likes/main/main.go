@@ -1,10 +1,10 @@
 package main
 
 import (
-	inserter "github.com/codeuniversity/smag-mvp/insta/inserter/likes"
-	"github.com/codeuniversity/smag-mvp/kafka"
-	"github.com/codeuniversity/smag-mvp/service"
-	"github.com/codeuniversity/smag-mvp/utils"
+	inserter "github.com/alexmorten/smag-mvp/insta/inserter/likes"
+	"github.com/alexmorten/smag-mvp/kafka"
+	"github.com/alexmorten/smag-mvp/service"
+	"github.com/alexmorten/smag-mvp/utils"
 )
 
 func main() {

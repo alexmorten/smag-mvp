@@ -3,11 +3,11 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/codeuniversity/smag-mvp/kafka"
-	"github.com/codeuniversity/smag-mvp/kafka/changestream"
-	neo4jinserter "github.com/codeuniversity/smag-mvp/neo4j/inserter"
-	"github.com/codeuniversity/smag-mvp/service"
-	"github.com/codeuniversity/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/kafka"
+	"github.com/alexmorten/smag-mvp/kafka/changestream"
+	neo4jinserter "github.com/alexmorten/smag-mvp/neo4j/inserter"
+	"github.com/alexmorten/smag-mvp/service"
+	"github.com/alexmorten/smag-mvp/utils"
 
 	"github.com/neo4j/neo4j-go-driver/neo4j"
 )

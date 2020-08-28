@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"log"
 
-	pb "github.com/codeuniversity/smag-mvp/aws_service/proto"
-	generator "github.com/codeuniversity/smag-mvp/http_header-generator"
-	"github.com/codeuniversity/smag-mvp/utils"
+	pb "github.com/alexmorten/smag-mvp/aws_service/proto"
+	generator "github.com/alexmorten/smag-mvp/http_header-generator"
+	"github.com/alexmorten/smag-mvp/utils"
 
 	"io/ioutil"
 	"net"

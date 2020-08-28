@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/codeuniversity/smag-mvp/service"
+	"github.com/alexmorten/smag-mvp/service"
 )
 
 const (

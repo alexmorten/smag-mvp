@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/codeuniversity/smag-mvp/faces/proto"
-	"github.com/codeuniversity/smag-mvp/imgproxy"
-	"github.com/codeuniversity/smag-mvp/insta/models"
-	"github.com/codeuniversity/smag-mvp/worker"
+	"github.com/alexmorten/smag-mvp/faces/proto"
+	"github.com/alexmorten/smag-mvp/imgproxy"
+	"github.com/alexmorten/smag-mvp/insta/models"
+	"github.com/alexmorten/smag-mvp/worker"
 	"github.com/segmentio/kafka-go"
 	"google.golang.org/grpc"
 )

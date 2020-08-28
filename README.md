@@ -4,8 +4,8 @@
 
 [**Shields**](https://shield.io)
 
-[![Contributors](https://img.shields.io/github/contributors-anon/codeuniversity/smag-mvp.svg?logo=GitHub&style=flat-square 'Contributors')](https://github.com/codeuniversity/smag-mvp/graphs/contributors)
-[![Commits](https://img.shields.io/github/commit-activity/m/codeuniversity/smag-mvp.svg?logo=GitHub&style=flat-square 'Commits')](https://github.com/codeuniversity/smag-mvp/pulse/monthly)
+[![Contributors](https://img.shields.io/github/contributors-anon/codeuniversity/smag-mvp.svg?logo=GitHub&style=flat-square 'Contributors')](https://github.com/alexmorten/smag-mvp/graphs/contributors)
+[![Commits](https://img.shields.io/github/commit-activity/m/codeuniversity/smag-mvp.svg?logo=GitHub&style=flat-square 'Commits')](https://github.com/alexmorten/smag-mvp/pulse/monthly)
 
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/codeuniversity/smag-mvp?label=latest%20tag&logo=github)](#)
 [![CircleCI](https://img.shields.io/circleci/build/github/codeuniversity/smag-mvp?logo=circleci)](https://circleci.com/gh/codeuniversity/smag-mvp)

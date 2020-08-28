@@ -1,10 +1,10 @@
 package main
 
 import (
-	recognition "github.com/codeuniversity/smag-mvp/face-recognition"
-	"github.com/codeuniversity/smag-mvp/kafka"
-	"github.com/codeuniversity/smag-mvp/service"
-	"github.com/codeuniversity/smag-mvp/utils"
+	recognition "github.com/alexmorten/smag-mvp/face-recognition"
+	"github.com/alexmorten/smag-mvp/kafka"
+	"github.com/alexmorten/smag-mvp/service"
+	"github.com/alexmorten/smag-mvp/utils"
 )
 
 func main() {

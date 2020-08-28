@@ -1,11 +1,11 @@
 package main
 
 import (
-	scraper "github.com/codeuniversity/smag-mvp/insta/scraper/posts"
-	"github.com/codeuniversity/smag-mvp/kafka"
-	client "github.com/codeuniversity/smag-mvp/scraper-client"
-	"github.com/codeuniversity/smag-mvp/service"
-	"github.com/codeuniversity/smag-mvp/utils"
+	scraper "github.com/alexmorten/smag-mvp/insta/scraper/posts"
+	"github.com/alexmorten/smag-mvp/kafka"
+	client "github.com/alexmorten/smag-mvp/scraper-client"
+	"github.com/alexmorten/smag-mvp/service"
+	"github.com/alexmorten/smag-mvp/utils"
 )
 
 func main() {

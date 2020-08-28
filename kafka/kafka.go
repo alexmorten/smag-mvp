@@ -3,7 +3,7 @@ package kafka
 import (
 	"time"
 
-	"github.com/codeuniversity/smag-mvp/utils"
+	"github.com/alexmorten/smag-mvp/utils"
 	"github.com/segmentio/kafka-go"
 )
 

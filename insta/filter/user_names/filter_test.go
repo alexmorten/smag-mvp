@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/codeuniversity/smag-mvp/kafka/changestream"
+	"github.com/alexmorten/smag-mvp/kafka/changestream"
 	"github.com/stretchr/testify/assert"
 )
 

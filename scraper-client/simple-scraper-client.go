@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	generator "github.com/codeuniversity/smag-mvp/http_header-generator"
+	generator "github.com/alexmorten/smag-mvp/http_header-generator"
 )
 
 // SimpleScraperClient handles retries and setting random headers for scraping

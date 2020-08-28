@@ -10,9 +10,9 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/codeuniversity/smag-mvp/insta/models"
-	client "github.com/codeuniversity/smag-mvp/scraper-client"
-	"github.com/codeuniversity/smag-mvp/worker"
+	"github.com/alexmorten/smag-mvp/insta/models"
+	client "github.com/alexmorten/smag-mvp/scraper-client"
+	"github.com/alexmorten/smag-mvp/worker"
 	"github.com/segmentio/kafka-go"
 )
 

@@ -1,6 +1,6 @@
 package config
 
-import "github.com/codeuniversity/smag-mvp/utils"
+import "github.com/alexmorten/smag-mvp/utils"
 
 // S3Config holds all the configurable variables for S3
 type S3Config struct {

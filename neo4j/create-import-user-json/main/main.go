@@ -1,9 +1,9 @@
 package main
 
 import (
-	neo4j_import "github.com/codeuniversity/smag-mvp/neo4j/create-import-user-json"
-	"github.com/codeuniversity/smag-mvp/service"
-	"github.com/codeuniversity/smag-mvp/utils"
+	neo4j_import "github.com/alexmorten/smag-mvp/neo4j/create-import-user-json"
+	"github.com/alexmorten/smag-mvp/service"
+	"github.com/alexmorten/smag-mvp/utils"
 )
 
 func main() {

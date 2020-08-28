@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/codeuniversity/smag-mvp/insta/models"
-	"github.com/codeuniversity/smag-mvp/worker"
+	"github.com/alexmorten/smag-mvp/insta/models"
+	"github.com/alexmorten/smag-mvp/worker"
 
 	// necessary for "database/sql"
 	_ "github.com/lib/pq"

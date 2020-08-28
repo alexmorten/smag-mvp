@@ -1,6 +1,6 @@
 package config
 
-import "github.com/codeuniversity/smag-mvp/utils"
+import "github.com/alexmorten/smag-mvp/utils"
 
 // PostgresConfig holds all the configurable variables for Postgres
 type PostgresConfig struct {
