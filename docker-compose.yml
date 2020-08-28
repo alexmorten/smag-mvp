@@ -73,10 +73,6 @@ services:
       - "my-kafka"
     environment:
       KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_GROUPID: "insta_posts_scraper"
-      KAFKA_NAME_TOPIC: "user_names"
-      KAFKA_INSTA_POSTS_TOPIC: "insta_posts"
-      KAFKA_ERR_TOPIC: "insta_post_scrape_errors"
   insta_comments-scraper:
     build:
       context: "."
@@ -126,8 +122,6 @@ services:
       - "postgres"
     environment:
       KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_GROUPID: "insta_posts_inserter"
-      KAFKA_INSTA_POSTS_TOPIC: "insta_posts"
       POSTGRES_HOST: "postgres"
       POSTGRES_PASSWORD: "12345678"
   insta_comments-inserter:
