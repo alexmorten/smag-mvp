@@ -2,8 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/alexmorten/smag-mvp/insta/models"
+	kf "github.com/alexmorten/smag-mvp/kafka"
 	"github.com/alexmorten/smag-mvp/kafka/changestream"
 	"github.com/alexmorten/smag-mvp/service"
 	"github.com/alexmorten/smag-mvp/utils"
@@ -13,12 +15,12 @@ import (
 
 func main() {
 	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "my-kafka:9092")
-	groupID := utils.MustGetStringFromEnv("KAFKA_GROUPID")
-	changesTopic := utils.GetStringFromEnvWithDefault("KAFKA_CHANGE_TOPIC", "postgres.public.posts")
-	downloadTopic := utils.GetStringFromEnvWithDefault("KAFKA_PICTURE_DOWNLOADS_TOPIC", "insta_post_picture_download_jobs")
+	groupID := "post_pictures_filter_v4"
+	changesTopic := kf.TopicNamePGPosts
+	downloadTopic := kf.TopicNamePictureDownloads
 
 	f := changestream.NewFilter(kafkaAddress, groupID, changesTopic, downloadTopic, filterChange)
-
+	fmt.Println(f)
 	service.CloseOnSignal(f)
 	waitUntilClosed := f.Start()
 
@@ -31,7 +33,8 @@ type post struct {
 }
 
 func filterChange(m *changestream.ChangeMessage) ([]kafka.Message, error) {
-	if !(m.Payload.Op == "c" || m.Payload.Op == "u") {
+	fmt.Println("filtering", "payload op", m.Payload.Op)
+	if !(m.Payload.Op == "r" || m.Payload.Op == "c" || m.Payload.Op == "u") {
 		return nil, nil
 	}
 
@@ -45,7 +48,7 @@ func filterChange(m *changestream.ChangeMessage) ([]kafka.Message, error) {
 		return nil, nil
 	}
 
-	if m.Payload.Op == "c" {
+	if m.Payload.Op == "c" || m.Payload.Op == "r" {
 		return constructDownloadJobMessage(currentVersion)
 	}
 

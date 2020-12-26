@@ -48,8 +48,8 @@ func NewReader(c *ReaderConfig) *kafka.Reader {
 		Brokers:               []string{c.Address},
 		GroupID:               c.GroupID,
 		Topic:                 c.Topic,
-		MinBytes:              1e3,   // 1KB
-		MaxBytes:              100e6, // 10MB
+		MinBytes:              1e3,  // 1KB
+		MaxBytes:              10e6, // 10MB
 		QueueCapacity:         10000,
 		CommitInterval:        time.Second,
 		ReadBackoffMax:        time.Second * 5,

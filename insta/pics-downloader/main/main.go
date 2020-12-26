@@ -10,8 +10,8 @@ import (
 
 func main() {
 	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "127.0.0.1:9092")
-	groupID := utils.MustGetStringFromEnv("KAFKA_GROUPID")
-	jobsTopic := utils.MustGetStringFromEnv("KAFKA_PICTURE_DOWNLOADS_TOPIC")
+	groupID := "picture_downloader"
+	jobsTopic := kafka.TopicNamePictureDownloads
 	qReader := kafka.NewReader(kafka.NewReaderConfig(kafkaAddress, groupID, jobsTopic))
 
 	s3Config := config.GetS3Config()

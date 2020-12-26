@@ -9,6 +9,10 @@ const (
 	TopicNameScrapedPosts = "scraped_posts"
 	// TopicNamePostScrapeErrors receives errors that happen in scraping
 	TopicNamePostScrapeErrors = "post_scrape_errors"
+	// TopicNamePGPosts is a compacted topic for the posts that are written to postgres
+	TopicNamePGPosts = "postgres.public.posts"
+	// TopicNamePictureDownloads receives messages for the picture downloads
+	TopicNamePictureDownloads = "download_jobs"
 )
 
 // WithVersion returns the topic or groupid with a version suffix
