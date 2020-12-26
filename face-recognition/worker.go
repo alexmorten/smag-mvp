@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/alexmorten/smag-mvp/config"
 	"github.com/alexmorten/smag-mvp/faces/proto"
 	"github.com/alexmorten/smag-mvp/imgproxy"
 	"github.com/alexmorten/smag-mvp/insta/models"
@@ -29,8 +30,8 @@ type Worker struct {
 }
 
 // New returns an intialized worker
-func New(jobQReader *kafka.Reader, resultQWriter *kafka.Writer, faceRecognizerAddress string, pictureBucketName string, imgProxyAddress, imgProxyKey, imgProxySalt string) *Worker {
-	urlBuilder, err := imgproxy.New(imgProxyAddress, imgProxyKey, imgProxySalt)
+func New(jobQReader *kafka.Reader, resultQWriter *kafka.Writer, conf *config.Config) *Worker {
+	urlBuilder, err := imgproxy.New(conf.Imgproxy.Address, conf.Imgproxy.Key, conf.Imgproxy.Salt)
 	if err != nil {
 		panic(err)
 	}
@@ -38,8 +39,8 @@ func New(jobQReader *kafka.Reader, resultQWriter *kafka.Writer, faceRecognizerAd
 		jobQReader:            jobQReader,
 		resultQWriter:         resultQWriter,
 		urlBuilder:            urlBuilder,
-		bucketName:            pictureBucketName,
-		faceRecognizerAddress: faceRecognizerAddress,
+		bucketName:            conf.S3.PictureBucketName,
+		faceRecognizerAddress: conf.Recognizer.Address,
 	}
 
 	w.Worker = worker.Builder{}.WithName("face_recognition_worker").
@@ -65,14 +66,14 @@ func (w *Worker) step() error {
 	resultChan := make(chan recognitionResult)
 	for _, message := range messages {
 		go func(resultChan chan recognitionResult, jobMessage kafka.Message) {
-			job := &models.FaceReconJob{}
+			job := &models.PostDownloadJob{}
 			err = json.Unmarshal(jobMessage.Value, job)
 			if err != nil {
 				resultChan <- recognitionResult{Error: err}
 				return
 			}
 
-			if strings.Trim(job.InternalImageURL, " ") == "" {
+			if strings.Trim(job.PictureURL, " ") == "" {
 				log.Println("Empty image URL for post", job.PostID)
 				resultChan <- recognitionResult{JobMessage: jobMessage}
 				return
@@ -87,7 +88,7 @@ func (w *Worker) step() error {
 
 			client := proto.NewFaceRecognizerClient(con)
 
-			url := w.urlBuilder.GetCropURL(0, 0, 50000, 50000, w.urlBuilder.GetS3Url(w.bucketName, job.InternalImageURL))
+			url := w.urlBuilder.GetCropURL(0, 0, 50000, 50000, w.urlBuilder.GetS3Url(w.bucketName, job.PictureURL))
 			response, err := client.RecognizeFaces(context.Background(), &proto.RecognizeRequest{
 				Url: url,
 			})
@@ -106,7 +107,7 @@ func (w *Worker) step() error {
 				y := int(face.Y)
 				width := int(face.Width)
 				height := int(face.Height)
-				url := w.urlBuilder.GetCropURL(x, y, width, height, w.urlBuilder.GetS3Url(w.bucketName, job.InternalImageURL))
+				url := w.urlBuilder.GetCropURL(x, y, width, height, w.urlBuilder.GetS3Url(w.bucketName, job.PictureURL))
 				fmt.Println(url)
 
 				if len(face.Encoding) != 128 {

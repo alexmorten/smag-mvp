@@ -26,26 +26,17 @@ type InstaLikesInserter struct {
 }
 
 // New returns an initialized InstaLikesInserter
-func New(postgresHost, postgresPassword string, likesQReader *kafka.Reader) *InstaLikesInserter {
+func New(dbClient *sql.DB, likesQReader *kafka.Reader) *InstaLikesInserter {
 	i := &InstaLikesInserter{}
 	i.likesQReader = likesQReader
 
-	connectionString := fmt.Sprintf("host=%s user=postgres dbname=instascraper sslmode=disable", postgresHost)
-	if postgresPassword != "" {
-		connectionString += " " + "password=" + postgresPassword
-	}
-
-	db, err := sql.Open("postgres", connectionString)
-	if err != nil {
-		panic(err)
-	}
-	i.db = db
+	i.db = dbClient
 
 	b := worker.Builder{}.WithName("insta_likes_inserter").
 		WithWorkStep(i.runStep).
 		WithStopTimeout(10*time.Second).
 		AddShutdownHook("likesQReader", likesQReader.Close).
-		AddShutdownHook("postgres_client", db.Close)
+		AddShutdownHook("postgres_client", dbClient.Close)
 
 	i.Worker = b.MustBuild()
 

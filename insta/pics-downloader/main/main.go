@@ -9,15 +9,12 @@ import (
 )
 
 func main() {
-	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "127.0.0.1:9092")
-	groupID := "picture_downloader"
-	jobsTopic := kafka.TopicNamePictureDownloads
-	qReader := kafka.NewReader(kafka.NewReaderConfig(kafkaAddress, groupID, jobsTopic))
+	conf, err := config.LoadConfig()
+	utils.MustBeNil(err)
 
-	s3Config := config.GetS3Config()
-	postgresConfig := config.GetPostgresConfig()
+	qReader := kafka.NewReader(kafka.TopicNamePictureDownloads, "picture_downloader", conf.Kafka)
 
-	i := downloader.New(qReader, s3Config, postgresConfig)
+	i := downloader.New(qReader, &conf.S3, &conf.Postgres)
 
 	service.CloseOnSignal(i)
 	waitUntilClosed := i.Start()

@@ -3,20 +3,25 @@ package main
 import (
 	"encoding/json"
 
+	"github.com/alexmorten/smag-mvp/config"
+	ikafka "github.com/alexmorten/smag-mvp/kafka"
 	"github.com/alexmorten/smag-mvp/kafka/changestream"
 	"github.com/alexmorten/smag-mvp/service"
 	"github.com/alexmorten/smag-mvp/utils"
-
 	"github.com/segmentio/kafka-go"
 )
 
 func main() {
-	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "my-kafka:9092")
-	groupID := utils.MustGetStringFromEnv("KAFKA_GROUPID")
-	changesTopic := utils.GetStringFromEnvWithDefault("KAFKA_CHANGE_TOPIC", "postgres.public.users")
-	namesTopic := utils.GetStringFromEnvWithDefault("KAFKA_NAME_TOPIC", "user_names")
 
-	f := changestream.NewFilter(kafkaAddress, groupID, changesTopic, namesTopic, filterChange)
+	conf, err := config.LoadConfig()
+	utils.MustBeNil(err)
+
+	f := changestream.NewFilter(
+		conf.Kafka,
+		"user_names_filter",
+		ikafka.TopicNamePGUsers,
+		ikafka.TopicNameUserNames,
+		filterChange)
 
 	service.CloseOnSignal(f)
 	waitUntilClosed := f.Start()

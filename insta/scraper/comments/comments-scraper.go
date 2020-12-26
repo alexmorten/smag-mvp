@@ -37,7 +37,7 @@ type PostCommentScraper struct {
 }
 
 // New returns an initialized PostCommentScraper
-func New(config *client.ScraperConfig, awsServiceAddress string, postIDQReader *kafka.Reader, commentsInfoQWriter *kafka.Writer, errQWriter *kafka.Writer, commentLimit int) *PostCommentScraper {
+func New(config *client.ScraperConfig, postIDQReader *kafka.Reader, commentsInfoQWriter *kafka.Writer, errQWriter *kafka.Writer, commentLimit int) *PostCommentScraper {
 	s := &PostCommentScraper{}
 	s.postIDQReader = postIDQReader
 	s.commentsInfoQWriter = commentsInfoQWriter

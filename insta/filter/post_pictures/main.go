@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/alexmorten/smag-mvp/config"
 	"github.com/alexmorten/smag-mvp/insta/models"
 	kf "github.com/alexmorten/smag-mvp/kafka"
 	"github.com/alexmorten/smag-mvp/kafka/changestream"
@@ -14,13 +15,14 @@ import (
 )
 
 func main() {
-	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "my-kafka:9092")
-	groupID := "post_pictures_filter_v4"
+	conf, err := config.LoadConfig()
+	utils.MustBeNil(err)
+
+	groupID := "post_pictures_filter"
 	changesTopic := kf.TopicNamePGPosts
 	downloadTopic := kf.TopicNamePictureDownloads
 
-	f := changestream.NewFilter(kafkaAddress, groupID, changesTopic, downloadTopic, filterChange)
-	fmt.Println(f)
+	f := changestream.NewFilter(conf.Kafka, groupID, changesTopic, downloadTopic, filterChange)
 	service.CloseOnSignal(f)
 	waitUntilClosed := f.Start()
 

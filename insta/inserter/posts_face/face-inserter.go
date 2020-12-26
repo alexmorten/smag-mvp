@@ -10,6 +10,7 @@ import (
 	// necessary for gorm :pointup:
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
+	"github.com/alexmorten/smag-mvp/config"
 	dbutils "github.com/alexmorten/smag-mvp/db"
 	"github.com/alexmorten/smag-mvp/insta/models"
 	"github.com/alexmorten/smag-mvp/utils"
@@ -27,13 +28,13 @@ type Inserter struct {
 }
 
 // New returns an initilized inserter
-func New(postgresHost, postgresPassword string, qReader *kafka.Reader) *Inserter {
+func New(pgConf config.PostgresConfig, qReader *kafka.Reader) *Inserter {
 	i := &Inserter{}
 	i.qReader = qReader
 
-	connectionString := fmt.Sprintf("host=%s user=postgres dbname=instascraper sslmode=disable", postgresHost)
-	if postgresPassword != "" {
-		connectionString += " " + "password=" + postgresPassword
+	connectionString := fmt.Sprintf("host=%s user=postgres dbname=instascraper sslmode=disable", pgConf.Host)
+	if pgConf.Password != "" {
+		connectionString += " " + "password=" + pgConf.Password
 	}
 
 	db, err := gorm.Open("postgres", connectionString)

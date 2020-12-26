@@ -21,6 +21,6 @@ This is a remodelled version of [this](https://github.com/codeuniversity/smag-mv
 - [ ] use targeted scraping instead of limitless loop
 - [ ] dont download pictures if internal picture url is set
 - [ ] compress pictures in storage?
-- [ ] remove opencv from imageprocessing pipeline
 - [ ] remove old frontend, develp admin panel
 - [ ] errgroup in face detection worker
+- [ ] remove cropping from image processing pipeline

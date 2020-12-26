@@ -3,21 +3,26 @@ package main
 import (
 	"encoding/json"
 
+	"github.com/alexmorten/smag-mvp/config"
 	"github.com/alexmorten/smag-mvp/insta/models"
+	"github.com/alexmorten/smag-mvp/kafka"
 	"github.com/alexmorten/smag-mvp/kafka/changestream"
 	"github.com/alexmorten/smag-mvp/service"
 	"github.com/alexmorten/smag-mvp/utils"
 
-	"github.com/segmentio/kafka-go"
+	segkafka "github.com/segmentio/kafka-go"
 )
 
 func main() {
-	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "127.0.0.1:9092")
-	groupID := utils.MustGetStringFromEnv("KAFKA_GROUPID")
-	changesTopic := utils.GetStringFromEnvWithDefault("KAFKA_CHANGE_TOPIC", "postgres.public.posts")
-	downloadTopic := utils.GetStringFromEnvWithDefault("KAFKA_PICTURE_FACE_RECON_TOPIC", "insta_post_face_recon_jobs")
+	conf, err := config.LoadConfig()
+	utils.MustBeNil(err)
 
-	f := changestream.NewFilter(kafkaAddress, groupID, changesTopic, downloadTopic, filterChange)
+	f := changestream.NewFilter(
+		conf.Kafka,
+		"post_face_recon_filter",
+		kafka.TopicNamePGPosts,
+		kafka.TopicNameReconJobs,
+		filterChange)
 
 	service.CloseOnSignal(f)
 	waitUntilClosed := f.Start()
@@ -30,7 +35,7 @@ type post struct {
 	InternalPictureURL string `json:"internal_picture_url"`
 }
 
-func filterChange(m *changestream.ChangeMessage) ([]kafka.Message, error) {
+func filterChange(m *changestream.ChangeMessage) ([]segkafka.Message, error) {
 	if !(m.Payload.Op == "c" || m.Payload.Op == "u") {
 		return nil, nil
 	}
@@ -58,7 +63,7 @@ func filterChange(m *changestream.ChangeMessage) ([]kafka.Message, error) {
 	return nil, nil
 }
 
-func constructDownloadJobMessage(p *post) ([]kafka.Message, error) {
+func constructDownloadJobMessage(p *post) ([]segkafka.Message, error) {
 	if p.InternalPictureURL == "" {
 		return nil, nil
 	}
@@ -72,7 +77,7 @@ func constructDownloadJobMessage(p *post) ([]kafka.Message, error) {
 		return nil, err
 	}
 
-	return []kafka.Message{
+	return []segkafka.Message{
 		{Value: b},
 	}, nil
 }

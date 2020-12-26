@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/alexmorten/smag-mvp/config"
 	inserter "github.com/alexmorten/smag-mvp/insta/inserter/posts_face"
 	"github.com/alexmorten/smag-mvp/kafka"
 	"github.com/alexmorten/smag-mvp/service"
@@ -8,19 +9,13 @@ import (
 )
 
 func main() {
-	var i *inserter.Inserter
+	conf, err := config.LoadConfig()
+	utils.MustBeNil(err)
 
-	postgresHost := utils.GetStringFromEnvWithDefault("POSTGRES_HOST", "127.0.0.1")
-	postgresPassword := utils.GetStringFromEnvWithDefault("POSTGRES_PASSWORD", "")
+	qReader := kafka.NewReader(kafka.TopicNameReconResults, "faces_inserter", conf.Kafka)
 
-	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "127.0.0.1:9092")
-	groupID := utils.MustGetStringFromEnv("KAFKA_GROUPID")
-	jobsReadTopic := utils.GetStringFromEnvWithDefault("KAFKA_FACE_DETECTION_RESULTS_TOPIC", "insta_posts_detected_faces")
-	qReader := kafka.NewReader(kafka.NewReaderConfig(kafkaAddress, groupID, jobsReadTopic))
-
-	i = inserter.New(
-		postgresHost,
-		postgresPassword,
+	i := inserter.New(
+		conf.Postgres,
 		qReader,
 	)
 

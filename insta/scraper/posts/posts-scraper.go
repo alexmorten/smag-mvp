@@ -35,7 +35,7 @@ type InstaPostsScraper struct {
 }
 
 // New returns an initilized scraper
-func New(config *client.ScraperConfig, awsServiceAddress string, nameQReader *kafka.Reader, infoQWriter *kafka.Writer, errQWriter *kafka.Writer) *InstaPostsScraper {
+func New(config *client.ScraperConfig, nameQReader *kafka.Reader, infoQWriter *kafka.Writer, errQWriter *kafka.Writer) *InstaPostsScraper {
 	i := &InstaPostsScraper{}
 	i.nameQReader = nameQReader
 	i.postsQWriter = infoQWriter

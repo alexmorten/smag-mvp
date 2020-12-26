@@ -1,8 +1,10 @@
 package kafka
 
 import (
+	"fmt"
 	"time"
 
+	"github.com/alexmorten/smag-mvp/config"
 	"github.com/alexmorten/smag-mvp/utils"
 	"github.com/segmentio/kafka-go"
 )
@@ -11,7 +13,6 @@ import (
 // a new pre-configurated kafka-go Reader
 type ReaderConfig struct {
 	Address string
-	GroupID string
 	Topic   string
 }
 
@@ -21,15 +22,6 @@ type WriterConfig struct {
 	Address string
 	Topic   string
 	Async   bool
-}
-
-// NewReaderConfig creates a new ReaderConfig structure
-func NewReaderConfig(kafkaAddress, groupID, topic string) *ReaderConfig {
-	return &ReaderConfig{
-		Address: kafkaAddress,
-		GroupID: groupID,
-		Topic:   topic,
-	}
 }
 
 // NewWriterConfig creates a new WriterConfig structure
@@ -43,11 +35,12 @@ func NewWriterConfig(kafkaAddress, topic string, async bool) *WriterConfig {
 
 // NewReader creates a kafka-go Reader structure by using common
 // configuration and additionally applying the ReaderConfig on it
-func NewReader(c *ReaderConfig) *kafka.Reader {
+func NewReader(topic string, groupID string, conf config.KafkaConfig) *kafka.Reader {
+	version := utils.GetStringFromEnvWithDefault("KAFKA_GROUPID_VERSION", "1")
 	return kafka.NewReader(kafka.ReaderConfig{
-		Brokers:               []string{c.Address},
-		GroupID:               c.GroupID,
-		Topic:                 c.Topic,
+		Brokers:               []string{conf.Address},
+		GroupID:               fmt.Sprintf("%s.v%s", groupID, version),
+		Topic:                 topic,
 		MinBytes:              1e3,  // 1KB
 		MaxBytes:              10e6, // 10MB
 		QueueCapacity:         10000,
@@ -58,65 +51,12 @@ func NewReader(c *ReaderConfig) *kafka.Reader {
 	})
 }
 
-// NewWriter creates a kafka-go Writer structure by using common
-// configurations and additionally applying the WriterConfig on it
-func NewWriter(c *WriterConfig) *kafka.Writer {
+// NewWriter creates a kafka-go Writer
+func NewWriter(topic string, conf config.KafkaConfig) *kafka.Writer {
 	return kafka.NewWriter(kafka.WriterConfig{
-		Brokers:  []string{c.Address},
-		Topic:    c.Topic,
+		Brokers:  []string{conf.Address},
+		Topic:    topic,
 		Balancer: &kafka.LeastBytes{},
-		Async:    c.Async,
+		Async:    true,
 	})
-}
-
-//GetInserterConfig returns the Reader topics from kafka for Inserters
-func GetInserterConfig() *ReaderConfig {
-	var readerConfig *ReaderConfig
-
-	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "127.0.0.1:9092")
-
-	groupID := utils.MustGetStringFromEnv("KAFKA_GROUPID")
-	rTopic := utils.MustGetStringFromEnv("KAFKA_INFO_TOPIC")
-
-	readerConfig = NewReaderConfig(kafkaAddress, groupID, rTopic)
-
-	return readerConfig
-}
-
-// GetScraperConfig is a convenience function for gathering the necessary
-// kafka configuration for all golang scrapers
-func GetScraperConfig() (*ReaderConfig, *WriterConfig, *WriterConfig) {
-	var nameReaderConfig *ReaderConfig
-	var infoWriterConfig *WriterConfig
-	var errWriterConfig *WriterConfig
-
-	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "127.0.0.1:9092")
-
-	groupID := utils.MustGetStringFromEnv("KAFKA_GROUPID")
-	nameTopic := utils.MustGetStringFromEnv("KAFKA_NAME_TOPIC")
-	infoTopic := utils.MustGetStringFromEnv("KAFKA_INFO_TOPIC")
-	errTopic := utils.MustGetStringFromEnv("KAFKA_ERR_TOPIC")
-
-	nameReaderConfig = NewReaderConfig(kafkaAddress, groupID, nameTopic)
-	infoWriterConfig = NewWriterConfig(kafkaAddress, infoTopic, true)
-	errWriterConfig = NewWriterConfig(kafkaAddress, errTopic, false)
-
-	return nameReaderConfig, infoWriterConfig, errWriterConfig
-}
-
-// GetInstaPostsScraperConfig is a convenience function for gathering the necessary
-// kafka configuration for the insta posts golang scrapers
-func GetInstaPostsScraperConfig() (*ReaderConfig, *WriterConfig, *WriterConfig) {
-	var nameReaderConfig *ReaderConfig
-	var infoWriterConfig *WriterConfig
-	var errWriterConfig *WriterConfig
-
-	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "127.0.0.1:9092")
-
-	groupID := "posts_scraper"
-	nameReaderConfig = NewReaderConfig(kafkaAddress, groupID, TopicNameUserNames)
-	infoWriterConfig = NewWriterConfig(kafkaAddress, TopicNameScrapedPosts, true)
-	errWriterConfig = NewWriterConfig(kafkaAddress, TopicNamePostScrapeErrors, false)
-
-	return nameReaderConfig, infoWriterConfig, errWriterConfig
 }

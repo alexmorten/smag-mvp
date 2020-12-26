@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/alexmorten/smag-mvp/config"
 	kf "github.com/alexmorten/smag-mvp/kafka"
 	"github.com/alexmorten/smag-mvp/worker"
 
@@ -29,13 +30,10 @@ type Filter struct {
 type FilterFunc func(*ChangeMessage) ([]kafka.Message, error)
 
 // NewFilter returns an initilized Filter
-func NewFilter(kafkaAddress, kafkaGroupID, changesTopic, filteredTopic string, filter FilterFunc) *Filter {
-	readerConfig := kf.NewReaderConfig(kafkaAddress, kafkaGroupID, changesTopic)
-	writerConfig := kf.NewWriterConfig(kafkaAddress, filteredTopic, true)
-
+func NewFilter(conf config.KafkaConfig, kafkaGroupID, changesTopic, filteredTopic string, filter FilterFunc) *Filter {
 	f := &Filter{
-		changesReader:  kf.NewReader(readerConfig),
-		filteredWriter: kf.NewWriter(writerConfig),
+		changesReader:  kf.NewReader(changesTopic, kafkaGroupID, conf),
+		filteredWriter: kf.NewWriter(filteredTopic, conf),
 		filterFunc:     filter,
 	}
 

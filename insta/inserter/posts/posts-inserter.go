@@ -27,26 +27,17 @@ type InstaPostInserter struct {
 }
 
 // New retuns an initialized InstaPostInserter
-func New(postgresHost, postgresPassword string, postQReader *kafka.Reader) *InstaPostInserter {
+func New(dbClient *sql.DB, postQReader *kafka.Reader) *InstaPostInserter {
 	i := &InstaPostInserter{}
 	i.postQReader = postQReader
 
-	connectionString := fmt.Sprintf("host=%s user=postgres dbname=instascraper sslmode=disable", postgresHost)
-	if postgresPassword != "" {
-		connectionString += " " + "password=" + postgresPassword
-	}
-
-	db, err := sql.Open("postgres", connectionString)
-	if err != nil {
-		panic(err)
-	}
-	i.db = db
+	i.db = dbClient
 
 	i.Worker = worker.Builder{}.WithName("insta_posts_inserter").
 		WithWorkStep(i.runStep).
 		WithStopTimeout(10*time.Second).
 		AddShutdownHook("postQReader", postQReader.Close).
-		AddShutdownHook("postgres_connection", db.Close).
+		AddShutdownHook("postgres_connection", dbClient.Close).
 		MustBuild()
 
 	return i

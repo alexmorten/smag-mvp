@@ -4,24 +4,22 @@ import (
 	"encoding/json"
 	"strconv"
 
+	"github.com/alexmorten/smag-mvp/config"
 	"github.com/alexmorten/smag-mvp/elastic"
 	"github.com/alexmorten/smag-mvp/elastic/indexer"
 	esModels "github.com/alexmorten/smag-mvp/elastic/models"
 	"github.com/alexmorten/smag-mvp/insta/models"
+	"github.com/alexmorten/smag-mvp/kafka"
 	"github.com/alexmorten/smag-mvp/kafka/changestream"
 	"github.com/alexmorten/smag-mvp/service"
 	"github.com/alexmorten/smag-mvp/utils"
 )
 
 func main() {
-	kafkaAddress := utils.GetStringFromEnvWithDefault("KAFKA_ADDRESS", "my-kafka:9092")
-	groupID := utils.MustGetStringFromEnv("KAFKA_GROUPID")
-	bulkChunkSize := utils.GetNumberFromEnvWithDefault("BULK_CHUNK_SIZE", 10)
-	changesTopic := utils.GetStringFromEnvWithDefault("KAFKA_CHANGE_TOPIC", "postgres.public.face_data")
-	bulkFetchTimeoutSeconds := utils.GetNumberFromEnvWithDefault("BULK_FETCH_TIMEOUT_SECONDS", 5)
-	esHosts := utils.GetMultipleStringsFromEnvWithDefault("ES_HOSTS", []string{"http://localhost:9200"})
+	conf, err := config.LoadConfig()
+	utils.MustBeNil(err)
 
-	i := indexer.New(esHosts, elastic.FacesIndex, elastic.FacesIndexMapping, kafkaAddress, changesTopic, groupID, indexFace, bulkChunkSize, bulkFetchTimeoutSeconds)
+	i := indexer.New(elastic.FacesIndex, elastic.FacesIndexMapping, kafka.TopicNamePGFaces, "face_indexer", conf, indexFace)
 
 	service.CloseOnSignal(i)
 	waitUntilDone := i.Start()
@@ -55,15 +53,15 @@ func createBulkIndexOperation(face *models.FaceData) (*indexer.BulkIndexDoc, err
 		return nil, err
 	}
 
-	docJson, err := json.Marshal(doc)
+	docJSON, err := json.Marshal(doc)
 
 	if err != nil {
 		return nil, err
 	}
 
-	docJson = append(docJson, "\n"...)
+	docJSON = append(docJSON, "\n"...)
 
-	bulkUpsertBody := bulkOperation + string(docJson)
+	bulkUpsertBody := bulkOperation + string(docJSON)
 
 	return &indexer.BulkIndexDoc{DocumentId: strconv.Itoa(int(face.ID)), BulkOperation: bulkUpsertBody}, err
 

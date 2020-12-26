@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/alexmorten/smag-mvp/config"
+	"github.com/alexmorten/smag-mvp/db"
 	inserter "github.com/alexmorten/smag-mvp/insta/inserter/comments"
 	"github.com/alexmorten/smag-mvp/kafka"
 	"github.com/alexmorten/smag-mvp/service"
@@ -8,12 +10,13 @@ import (
 )
 
 func main() {
-	postgresHost := utils.GetStringFromEnvWithDefault("POSTGRES_HOST", "127.0.0.1")
-	postgresPassword := utils.GetStringFromEnvWithDefault("POSTGRES_PASSWORD", "")
+	conf, err := config.LoadConfig()
+	utils.MustBeNil(err)
 
-	qReaderConfig := kafka.GetInserterConfig()
+	dbClient, err := db.NewConn(conf.Postgres)
+	utils.MustBeNil(err)
 
-	s := inserter.New(postgresHost, postgresPassword, kafka.NewReader(qReaderConfig))
+	s := inserter.New(dbClient, kafka.NewReader(kafka.TopicNameScrapedComments, "comment_inserter", conf.Kafka))
 
 	service.CloseOnSignal(s)
 	waitUntilClosed := s.Start()

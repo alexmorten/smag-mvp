@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/alexmorten/smag-mvp/config"
 	inserter "github.com/alexmorten/smag-mvp/insta/inserter/postgres"
 	"github.com/alexmorten/smag-mvp/kafka"
 	"github.com/alexmorten/smag-mvp/service"
@@ -8,17 +9,12 @@ import (
 )
 
 func main() {
-	var i *inserter.Inserter
+	conf, err := config.LoadConfig()
+	utils.MustBeNil(err)
 
-	postgresHost := utils.GetStringFromEnvWithDefault("POSTGRES_HOST", "127.0.0.1")
-	postgresPassword := utils.GetStringFromEnvWithDefault("POSTGRES_PASSWORD", "")
-
-	qReaderConfig := kafka.GetInserterConfig()
-
-	i = inserter.New(
-		postgresHost,
-		postgresPassword,
-		kafka.NewReader(qReaderConfig),
+	i := inserter.New(
+		conf.Postgres,
+		kafka.NewReader(kafka.TopicNameUserInfos, "user_info_inserter", conf.Kafka),
 	)
 
 	service.CloseOnSignal(i)

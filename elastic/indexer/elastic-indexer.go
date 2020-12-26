@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/alexmorten/smag-mvp/config"
 	"github.com/alexmorten/smag-mvp/elastic"
 	kf "github.com/alexmorten/smag-mvp/kafka"
 	"github.com/alexmorten/smag-mvp/kafka/changestream"
@@ -36,16 +37,14 @@ type Indexer struct {
 type IndexFunc func(*changestream.ChangeMessage) (*BulkIndexDoc, error)
 
 // New returns an initialised Indexer
-func New(esHosts []string, esIndex, esMapping, kafkaAddress, changesTopic, kafkaGroupID string, indexFunc IndexFunc, bulkChunkSize int, bulkFetchTimeout int) *Indexer {
-	readerConfig := kf.NewReaderConfig(kafkaAddress, kafkaGroupID, changesTopic)
-
+func New(esIndex, esMapping, changesTopic, kafkaGroupID string, conf *config.Config, indexFunc IndexFunc) *Indexer {
 	i := &Indexer{}
-	i.kReader = kf.NewReader(readerConfig)
+	i.kReader = kf.NewReader(changesTopic, kafkaGroupID, conf.Kafka)
 	i.indexFunc = indexFunc
 	i.esIndex = esIndex
-	i.esClient = elastic.InitializeElasticSearch(esHosts)
-	i.bulkChunkSize = bulkChunkSize
-	i.bulkFetchTimeoutSeconds = bulkFetchTimeout
+	i.esClient = elastic.InitializeElasticSearch(conf.Elasticsearch.Hosts)
+	i.bulkChunkSize = conf.Elasticsearch.BulkChunkSize
+	i.bulkFetchTimeoutSeconds = conf.Elasticsearch.BulkFetchTimeoutSeconds
 
 	i.Worker = worker.Builder{}.WithName(fmt.Sprintf("indexer[%s->es/%s]", changesTopic, esIndex)).
 		WithWorkStep(i.runStep).
@@ -68,7 +67,7 @@ func (i *Indexer) runStep() error {
 	}
 
 	var bulkBody string
-	bulkDocumentIdKafkaMessages := make(map[string]kafka.Message)
+	bulkDocumentIDKafkaMessages := make(map[string]kafka.Message)
 	for _, message := range messages {
 
 		changeMessage := &changestream.ChangeMessage{}
@@ -81,7 +80,7 @@ func (i *Indexer) runStep() error {
 			return err
 		}
 
-		bulkDocumentIdKafkaMessages[bulkOperation.DocumentId] = message
+		bulkDocumentIDKafkaMessages[bulkOperation.DocumentId] = message
 		if bulkOperation == nil {
 			continue
 		}
@@ -120,7 +119,7 @@ func (i *Indexer) runStep() error {
 	if err != nil {
 		return err
 	}
-	for _, message := range bulkDocumentIdKafkaMessages {
+	for _, message := range bulkDocumentIDKafkaMessages {
 		err := i.kReader.CommitMessages(context.Background(), message)
 		if err != nil {
 			return err
@@ -137,13 +136,13 @@ func (i *Indexer) checkAllResultMessagesAreValid(result *bulkResult) error {
 	for _, bulkResultOperation := range result.Items {
 		if bulkResultOperation.Index != nil {
 
-			err := errorForHttpStatus(bulkResultOperation.Index.Status)
+			err := errorForHTTPStatus(bulkResultOperation.Index.Status)
 			if err != nil {
 				return err
 			}
 		} else if bulkResultOperation.Update != nil {
 
-			err := errorForHttpStatus(bulkResultOperation.Update.Status)
+			err := errorForHTTPStatus(bulkResultOperation.Update.Status)
 			if err != nil {
 				return err
 			}
@@ -152,9 +151,9 @@ func (i *Indexer) checkAllResultMessagesAreValid(result *bulkResult) error {
 	return nil
 }
 
-func errorForHttpStatus(httpStatus int) error {
+func errorForHTTPStatus(httpStatus int) error {
 	if httpStatus != 200 && httpStatus != 201 {
-		return fmt.Errorf("creating/updateing index failed Httpstatus: %d \n", httpStatus)
+		return fmt.Errorf("creating/updateing index failed Httpstatus: %d", httpStatus)
 	}
 	return nil
 }

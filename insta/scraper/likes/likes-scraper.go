@@ -34,7 +34,7 @@ type PostLikesScraper struct {
 }
 
 // New returns an initialized PostLikesScraper
-func New(config *client.ScraperConfig, awsServiceAddress string, postIDQReader *kafka.Reader, likesInfoQWriter *kafka.Writer, errQWriter *kafka.Writer, likesLimit int) *PostLikesScraper {
+func New(config *client.ScraperConfig, postIDQReader *kafka.Reader, likesInfoQWriter *kafka.Writer, errQWriter *kafka.Writer, likesLimit int) *PostLikesScraper {
 	s := &PostLikesScraper{}
 	s.postIDQReader = postIDQReader
 	s.likesInfoQWriter = likesInfoQWriter

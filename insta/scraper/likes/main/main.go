@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/alexmorten/smag-mvp/config"
 	scraper "github.com/alexmorten/smag-mvp/insta/scraper/likes"
 	"github.com/alexmorten/smag-mvp/kafka"
 	client "github.com/alexmorten/smag-mvp/scraper-client"
@@ -9,12 +10,18 @@ import (
 )
 
 func main() {
-	awsServiceAddress := utils.GetStringFromEnvWithDefault("AWS_SERVICE_ADDRESS", "")
-	commentLimit := utils.GetNumberFromEnvWithDefault("LIKE_LIMIT", 24)
-	readerConfig, infoWriterConfig, errWriterConfig := kafka.GetScraperConfig()
+	conf, err := config.LoadConfig()
+	utils.MustBeNil(err)
 
+	commentLimit := utils.GetNumberFromEnvWithDefault("LIKE_LIMIT", 24)
 	config := client.GetScraperConfig()
-	s := scraper.New(config, awsServiceAddress, kafka.NewReader(readerConfig), kafka.NewWriter(infoWriterConfig), kafka.NewWriter(errWriterConfig), commentLimit)
+	s := scraper.New(
+		config,
+		kafka.NewReader(kafka.TopicNameScrapedPosts, "like_scraper", conf.Kafka),
+		kafka.NewWriter(kafka.TopicNameScrapedLikes, conf.Kafka),
+		kafka.NewWriter(kafka.TopicNameLikeScrapeErrors, conf.Kafka),
+		commentLimit,
+	)
 
 	service.CloseOnSignal(s)
 	waitUntilClosed := s.Start()

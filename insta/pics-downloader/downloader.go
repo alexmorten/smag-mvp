@@ -38,10 +38,10 @@ type Downloader struct {
 func New(qReader *kafka.Reader, s3Config *config.S3Config, postgresConfig *config.PostgresConfig) *Downloader {
 	i := &Downloader{}
 
-	i.bucketName = s3Config.S3BucketName
-	i.region = s3Config.S3Region
+	i.bucketName = s3Config.PictureBucketName
+	i.region = s3Config.Region
 
-	minioClient, err := minio.New(s3Config.S3Endpoint, s3Config.S3AccessKeyID, s3Config.S3SecretAccessKey, s3Config.S3UseSSL)
+	minioClient, err := minio.New(s3Config.Endpoint, s3Config.AccessKeyID, s3Config.SecretAccessKey, s3Config.UseSSL)
 	utils.MustBeNil(err)
 
 	i.minioClient = minioClient
@@ -50,9 +50,9 @@ func New(qReader *kafka.Reader, s3Config *config.S3Config, postgresConfig *confi
 
 	i.qReader = qReader
 
-	connectionString := fmt.Sprintf("host=%s user=postgres dbname=instascraper sslmode=disable", postgresConfig.PostgresHost)
-	if postgresConfig.PostgresPassword != "" {
-		connectionString += " " + "password=" + postgresConfig.PostgresPassword
+	connectionString := fmt.Sprintf("host=%s user=postgres dbname=instascraper sslmode=disable", postgresConfig.Host)
+	if postgresConfig.Password != "" {
+		connectionString += " " + "password=" + postgresConfig.Password
 	}
 
 	db, err := sql.Open("postgres", connectionString)

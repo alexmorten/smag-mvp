@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/alexmorten/smag-mvp/config"
 	scraper "github.com/alexmorten/smag-mvp/insta/scraper/posts"
 	"github.com/alexmorten/smag-mvp/kafka"
 	client "github.com/alexmorten/smag-mvp/scraper-client"
@@ -9,11 +10,16 @@ import (
 )
 
 func main() {
-	awsServiceAddress := utils.GetStringFromEnvWithDefault("AWS_SERVICE_ADDRESS", "")
-	nameReaderConfig, infoWriterConfig, errWriterConfig := kafka.GetInstaPostsScraperConfig()
+	conf, err := config.LoadConfig()
+	utils.MustBeNil(err)
 
 	config := client.GetScraperConfig()
-	s := scraper.New(config, awsServiceAddress, kafka.NewReader(nameReaderConfig), kafka.NewWriter(infoWriterConfig), kafka.NewWriter(errWriterConfig))
+	s := scraper.New(
+		config,
+		kafka.NewReader(kafka.TopicNameUserNames, "post_scraper", conf.Kafka),
+		kafka.NewWriter(kafka.TopicNameScrapedPosts, conf.Kafka),
+		kafka.NewWriter(kafka.TopicNamePostScrapeErrors, conf.Kafka),
+	)
 
 	service.CloseOnSignal(s)
 	waitUntilClosed := s.Start()
