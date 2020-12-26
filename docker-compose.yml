@@ -201,83 +201,6 @@ services:
       KAFKA_ADDRESS: "my-kafka:9092"
       KAFKA_GROUPID: "insta_user_names-filter"
       KAFKA_CHANGE_TOPIC: "postgres.public.users"
-
-  # API
-  envoy-proxy:
-    build:
-      context: "."
-      dockerfile: "./api/envoy-proxy/Dockerfile"
-    depends_on:
-      - "grpc-server"
-    ports:
-      - "4000:8080"
-  grpc-server:
-    build:
-      context: "."
-      dockerfile: "./api/grpcserver/Dockerfile"
-    environment:
-      POSTGRES_HOST: "postgres"
-      POSTGRES_PASSWORD: "12345678"
-      KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_NAME_TOPIC: "user_names"
-      ES_HOSTS: "http://es-with-plugin:9200"
-      RECOGNITION_SERVICE_ADDRESS: "face_recognizer:6666"
-      S3_UPLOAD_BUCKET_NAME: "tmp-insta-uploads"
-      S3_BUCKET_NAME: "instapics"
-      S3_REGION: "eu-west-1"
-      S3_ENDOINT: "minio:9000"
-      S3_ACCESS_KEY_ID: "AKIAIOSFODNN7EXAMPLE"
-      S3_SECRET_ACCESS_KEY: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-      S3_USE_SSL: "false"
-    ports:
-      - "10000:10000"
-
-  # NEO4J
-  neo4j:
-    image: "neo4j:3.5.12"
-    ports:
-      - "7474:7474"
-      - "7687:7687"
-    environment:
-      NEO4J_AUTH: none
-
-  # NEO4J INSERTER
-  neo4j-posts-inserter:
-    build:
-      context: "."
-      dockerfile: "insta/inserter/neo4j/posts/Dockerfile"
-    depends_on:
-      - "neo4j"
-      - "my-kafka"
-    environment:
-      KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_GROUPID: "neo4j-posts-inserter"
-      KAFKA_INFO_TOPIC: "postgres.public.posts"
-  neo4j-tagged-users-inserter:
-    build:
-      context: "."
-      dockerfile: "insta/inserter/neo4j/tagged_users/Dockerfile"
-    depends_on:
-      - "neo4j"
-      - "my-kafka"
-    environment:
-      KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_GROUPID: "neo4j-tagged-users-inserter"
-      KAFKA_INFO_TOPIC: "postgres.public.tagged_users"
-  neo4j-followings-inserter:
-    build:
-      context: "."
-      dockerfile: "insta/inserter/neo4j/user/Dockerfile"
-    depends_on:
-      - "neo4j"
-      - "my-kafka"
-    environment:
-      KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_GROUPID: "neo4j-followings-inserter"
-      KAFKA_INFO_TOPIC: "postgres.public.tagged_users"
-      NEO4j_PASSWORD: "12345678"
-
-  # FACE
   minio:
     image: minio/minio
     ports:
@@ -307,8 +230,6 @@ services:
     environment:
       GRPC_PORT: "6666"
       METRICS_PORT: "6690"
-
-  # ELASTICSEARCH
   es-with-plugin:
     build: "./elastic/build"
     environment:
@@ -322,8 +243,6 @@ services:
       - 5601:5601
     environment:
       - ELASTICSEARCH_HOSTS=["http://es-with-plugin:9200"]
-
-  # ELASTICSEARCH INDEXER
   insta_face-indexer:
     build:
       context: "."
@@ -332,34 +251,4 @@ services:
       KAFKA_ADDRESS: "my-kafka:9092"
       KAFKA_GROUPID: "es-face-indexer2"
       KAFKA_CHANGE_TOPIC: "postgres.public.face_data"
-      ES_HOSTS: "http://es-with-plugin:9200"
-
-  insta_comments-indexer:
-    build:
-      context: "."
-      dockerfile: "insta/indexer/comments/Dockerfile"
-    environment:
-      KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_GROUPID: "es-comments-indexer"
-      KAFKA_CHANGE_TOPIC: "postgres.public.comments"
-      ES_HOSTS: "http://es-with-plugin:9200"
-
-  insta_posts-indexer:
-    build:
-      context: "."
-      dockerfile: "insta/indexer/posts/Dockerfile"
-    environment:
-      KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_GROUPID: "es-posts-indexer"
-      KAFKA_CHANGE_TOPIC: "postgres.public.posts"
-      ES_HOSTS: "http://es-with-plugin:9200"
-
-  insta_users-indexer:
-    build:
-      context: "."
-      dockerfile: "insta/indexer/users/Dockerfile"
-    environment:
-      KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_GROUPID: "es-users-indexer"
-      KAFKA_CHANGE_TOPIC: "postgres.public.indexer"
       ES_HOSTS: "http://es-with-plugin:9200"
