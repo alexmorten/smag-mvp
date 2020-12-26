@@ -162,8 +162,6 @@ services:
       POSTGRES_HOST: "postgres"
       POSTGRES_PASSWORD: "12345678"
       KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_GROUPID: "insta_pics_downloader"
-      KAFKA_PICTURE_DOWNLOADS_TOPIC: "insta_pic_download_jobs"
       S3_BUCKET_NAME: "instapics"
       S3_REGION: "eu-west-1"
       S3_ENDOINT: "minio:9000"
@@ -192,9 +190,6 @@ services:
       - "postgres"
     environment:
       KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_GROUPID: "insta_post-pictures-filter"
-      KAFKA_CHANGE_TOPIC: "postgres.public.posts"
-      KAFKA_PICTURE_DOWNLOADS_TOPIC: "insta_pic_download_jobs"
   insta_user_names-filter:
     build:
       context: "."
