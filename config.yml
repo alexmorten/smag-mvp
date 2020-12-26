@@ -1,0 +1,28 @@
+s3:
+  picture_bucket_name: "pics"
+  region: "eu-west-1"
+  endpoint: "minio:9000"
+  key_id: "AKIAIOSFODNN7EXAMPLE"
+  secret: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+  use_ssl: false
+
+kafka:
+  address: "my-kafka:9092"
+
+postgres:
+  host: "postgres"
+  password: "12345678"
+
+imgproxy:
+  address: "imgproxy:8080"
+  key: 5800c215e5cd5110365c390e83752526fa40758efa4dcc406e3a4fdd6e22877c
+  salt: 520f986b998545b4785e0defbc4f3c1203f22de2374a3d53cb7a7fe9fea309c5
+
+elasticsearch:
+  hosts:
+    - "http://es-with-plugin:9200"
+  bulk_chunk_size: 10
+  bulk_fetch_timeout_seconds: 300
+
+recognizer:
+  address: "face_recognizer:6666"

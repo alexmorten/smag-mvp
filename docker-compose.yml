@@ -56,15 +56,10 @@ services:
     build:
       context: "."
       dockerfile: "insta/scraper/user/Dockerfile"
-    image: "smag-insta_user-scraper"
+    volumes:
+      - ./config.yml:/app/config.yml
     depends_on:
       - "my-kafka"
-    environment:
-      KAFKA_ADDRESS: "my-kafka:9092"
-      KAFKA_GROUPID: "insta_user_scraper"
-      KAFKA_NAME_TOPIC: "user_names"
-      KAFKA_INFO_TOPIC: "user_follow_infos"
-      KAFKA_ERR_TOPIC: "insta_user_scaper_err"
   insta_posts-scraper:
     build:
       context: "."
