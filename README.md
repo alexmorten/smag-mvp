@@ -6,21 +6,27 @@ This is a remodelled version of [this](https://github.com/codeuniversity/smag-mv
 
 ## TODOS
 
-- [ ] use yaml files to configure services
-- [ ] use default values for all topics and group id
-- [ ] use kafka client to create all topics in code
-- [ ] single error queue? or no error queue?
+- [x] use yaml files to configure services
+- [x] use default values for all topics and group id
+- [ ] Dockerfile:
+  - [ ] use go 1.15
+  - [ ] use experimental syntax
+  - [ ] use mount type cache
 - [ ] create kafka topics and partitions automatically
-- [ ] use go 1.15
-- [ ] use tor for scraping
-- [ ] use wire for dependency injection
-- [ ] use cockroach db as postgres replacement
 - [ ] use go migrate in go code to migrate db tables
+- [ ] use tor for scraping
+- [ ] use cockroach db as postgres replacement
 - [ ] use changestream handling from cockroach db
-- [ ] write kafka messages as protobuf?
+- [ ] remove cropping from image processing pipeline
 - [ ] use targeted scraping instead of limitless loop
 - [ ] dont download pictures if internal picture url is set
-- [ ] compress pictures in storage?
-- [ ] remove old frontend, develp admin panel
 - [ ] errgroup in face detection worker
-- [ ] remove cropping from image processing pipeline
+- [ ] develop admin panel
+
+
+ideas:
+
+- [ ] use wire for dependency injection ?
+- [ ] compress pictures in storage?
+- [ ] write kafka messages as protobuf?
+- [ ] single error queue? or no error queue?
