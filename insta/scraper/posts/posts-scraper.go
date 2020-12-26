@@ -42,11 +42,7 @@ func New(config *client.ScraperConfig, awsServiceAddress string, nameQReader *ka
 	i.errQWriter = errQWriter
 	i.requestRetryCount = config.RequestRetryCount
 
-	if awsServiceAddress == "" {
-		i.httpClient = client.NewSimpleScraperClient()
-	} else {
-		i.httpClient = client.NewHttpClient(awsServiceAddress, config)
-	}
+	i.httpClient = client.NewSimpleScraperClient()
 
 	i.Worker = worker.Builder{}.WithName("insta_posts_scraper").
 		WithWorkStep(i.runStep).

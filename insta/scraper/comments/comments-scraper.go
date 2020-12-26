@@ -45,11 +45,7 @@ func New(config *client.ScraperConfig, awsServiceAddress string, postIDQReader *
 	s.requestRetryCount = config.RequestRetryCount
 	s.commentLimit = commentLimit
 
-	if awsServiceAddress == "" {
-		s.httpClient = client.NewSimpleScraperClient()
-	} else {
-		s.httpClient = client.NewHttpClient(awsServiceAddress, config)
-	}
+	s.httpClient = client.NewSimpleScraperClient()
 	s.Worker = worker.Builder{}.WithName("insta_comments_scraper").
 		WithWorkStep(s.runStep).
 		AddShutdownHook("postIDQReader", postIDQReader.Close).
