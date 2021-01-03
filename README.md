@@ -15,8 +15,6 @@ This is a remodelled version of [this](https://github.com/codeuniversity/smag-mv
 - [ ] create kafka topics and partitions automatically
 - [ ] use go migrate in go code to migrate db tables
 - [ ] use tor for scraping
-- [ ] use cockroach db as postgres replacement
-- [ ] use changestream handling from cockroach db
 - [ ] remove cropping from image processing pipeline
 - [ ] use targeted scraping instead of limitless loop
 - [ ] dont download pictures if internal picture url is set
@@ -30,3 +28,8 @@ ideas:
 - [ ] compress pictures in storage?
 - [ ] write kafka messages as protobuf?
 - [ ] single error queue? or no error queue?
+
+
+not possible right now
+- [ ] use cockroach db as postgres replacement (change data capture is enterprise feature)
+- [ ] use changestream handling from cockroach db
