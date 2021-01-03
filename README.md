@@ -14,7 +14,7 @@ This is a remodelled version of [this](https://github.com/codeuniversity/smag-mv
   - [ ] use mount type cache
 - [ ] create kafka topics and partitions automatically
 - [ ] use go migrate in go code to migrate db tables
-- [ ] use tor for scraping
+- [ ] use tor for scraping (tricky, seems like login is necessary for when coming from a tor ip address :/ )
 - [ ] remove cropping from image processing pipeline
 - [ ] use targeted scraping instead of limitless loop
 - [ ] dont download pictures if internal picture url is set

@@ -63,8 +63,10 @@ services:
       dockerfile: "insta/scraper/posts/Dockerfile"
     depends_on:
       - "my-kafka"
-    environment:
-      KAFKA_ADDRESS: "my-kafka:9092"
+    # environment:
+    #   HTTP_PROXY: "socks5://torproxy:9050"
+    volumes:
+      - "./config.yml:/app/config.yml"
   insta_comments-scraper:
     build:
       context: "."
@@ -241,3 +243,7 @@ services:
       KAFKA_GROUPID: "es-face-indexer2"
       KAFKA_CHANGE_TOPIC: "postgres.public.face_data"
       ES_HOSTS: "http://es-with-plugin:9200"
+  torproxy:
+    build:
+      context: "./scraper-client/proxy/"
+      # dockerfile: "./scraper-client/proxy/Dockerfile"

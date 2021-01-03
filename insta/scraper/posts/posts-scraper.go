@@ -193,6 +193,7 @@ func (i *InstaPostsScraper) scrapeAccountInfo(username string) (instagramAccount
 	}
 	err = json.Unmarshal(body, &userAccountInfo)
 	if err != nil {
+		fmt.Println(string(body))
 		return userAccountInfo, err
 	}
 	return userAccountInfo, nil
@@ -233,6 +234,7 @@ func (i *InstaPostsScraper) scrapeProfileMedia(userID string, endCursor string) 
 	}
 	err = json.Unmarshal(body, &media)
 	if err != nil {
+		fmt.Println(string(body))
 		return media, err
 	}
 	return media, nil
