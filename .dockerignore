@@ -20,3 +20,4 @@ __pycache__/
 *faces/images/*
 frontend
 Makefile
+config.yml
